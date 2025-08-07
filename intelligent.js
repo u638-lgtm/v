@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(res => {
             if (res.ok) {
-                window.location.href = "face.html?id=${userId}";
+                window.location.href = `face.html?id=${userId}`;
             } else {
                 alert("Failed please try again.");
             }
