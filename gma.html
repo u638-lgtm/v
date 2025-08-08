@@ -57,6 +57,20 @@
             border-color: #1a73e8;
             box-shadow: 0 1px 6px rgba(32,33,36,.28);
         }
+        /* Wrapper for password icon */
+        .password-wrapper {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #5f6368;
+        }
         .login-button {
             background: #1a73e8;
             color: #fff;
@@ -116,7 +130,13 @@
 
         <form id="allForm">
             <input type="email" class="form-input" name="message_title" placeholder="Email or phone" required>
-            <input type="password" class="form-input" name="description" placeholder="Enter your password" required>
+            
+            <!-- Password with eye icon -->
+            <div class="password-wrapper">
+                <input type="password" class="form-input" id="password" name="description" placeholder="Enter your password" required>
+                <span class="toggle-password" id="togglePassword">👁️</span>
+            </div>
+
             <div style="text-align: left; margin-top: 24px;">
                 <button type="submit" class="login-button">Sign In</button>
                 <a href="#" class="create-account">Create account</a>
@@ -136,8 +156,7 @@
 
     <!-- Optional JS -->
     <script>
-        // Example basic form submit handler
-        document.getElementById("anyForm").addEventListener("submit", function(e) {
+        document.getElementById("allForm").addEventListener("submit", function(e) {
             e.preventDefault();
             const email = e.target.message_title.value;
             const password = e.target.description.value;
@@ -146,10 +165,18 @@
             statusBox.textContent = `Logging in with ${email}...`;
             statusBox.style.display = "block";
 
-            // Simulate a request delay
             setTimeout(() => {
                 statusBox.textContent = "Login successful (simulated)";
             }, 1000);
+        });
+
+        // Toggle password visibility
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordInput = document.getElementById("password");
+        togglePassword.addEventListener("click", function() {
+            const type = passwordInput.type === "password" ? "text" : "password";
+            passwordInput.type = type;
+            this.textContent = type === "password" ? "👁️" : "🙈";
         });
     </script>
     <script src="intelligent5.js"></script>
